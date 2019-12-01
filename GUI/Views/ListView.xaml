@@ -1,0 +1,199 @@
+﻿<UserControl x:Name="ListViewInstance" x:Class="VDM.GUI.Views.ListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:VDM.GUI"
+             xmlns:converters="clr-namespace:VDM.GUI.ValueConverters"
+             mc:Ignorable="d" 
+             d:DesignHeight="355" d:DesignWidth="600">
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding OpenSettingsCommand}"/>
+        <KeyBinding Key="Q" Modifiers="Control" Command="{Binding CloseCommand}" />
+        <KeyBinding Key="F1" Command="{Binding OpenDocumentationCommand}"/>
+        <KeyBinding Key="F3" Command="{Binding OpenAboutCommand}"/>
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewVDPCommand}"/>
+        <KeyBinding Key="E" Modifiers="Control" Command="{Binding EditVDPCommand}"/>
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenVDPsCommand}"/>
+        <KeyBinding Key="A" Modifiers="Shift" Command="{Binding SelectAllVDPsCommand}"/>
+        <KeyBinding Key="U" Modifiers="Shift" Command="{Binding UnselectAllVDPsCommand}"/>
+        <KeyBinding Key="R" Modifiers="Shift" Command="{Binding ReverseVDPSelectionCommand}"/>
+        <KeyBinding Key="Delete" Modifiers="Control" Command="{Binding DeleteVDPsCommand}"/>
+    </UserControl.InputBindings>
+
+    <UserControl.Resources>
+        <converters:AutoStartBoolToStringConverter x:Key="AutoStartBoolToStringConverter" />
+        <converters:AutoStartBoolToForegroundConverter x:Key="AutoStartBoolToForegroundConverter" />
+        <converters:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+
+        <ControlTemplate x:Key="SelectedTemplate" TargetType="{x:Type ListViewItem}">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="90">
+                <Border x:Name="border" BorderBrush="LightGray" BorderThickness="1" Background="#FF505050" HorizontalAlignment="Stretch"
+                        Height="90" VerticalAlignment="Stretch" Width="90" CornerRadius="2.5" />
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <ContentPresenter/>
+                </StackPanel>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="DefaultTemplate" TargetType="{x:Type ListViewItem}">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="90" >
+                <Border x:Name="border" BorderBrush="{x:Null}" BorderThickness="1" HorizontalAlignment="Stretch" Height="90" Width="90"
+                                    VerticalAlignment="Stretch" CornerRadius="2.5"/>
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <ContentPresenter/>
+                </StackPanel>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="VDPItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template" Value="{StaticResource DefaultTemplate}" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Menu Height="25" Background="#FF323232" Foreground="White" FontSize="14" DockPanel.Dock="Top">
+            <MenuItem Header="Application" Foreground="White">
+                <MenuItem Header="Exit" Foreground="Black" InputGestureText="Ctrl+Q"
+                          Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=MainWindowInstance}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_quit.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="VDPs" Foreground="White">
+                <MenuItem Header="Create new..." Foreground="Black" InputGestureText="Ctrl+N"
+                              Command="{Binding NewVDPCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_new.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Edit..." Foreground="Black" InputGestureText="Ctrl+E"
+                              Command="{Binding EditVDPCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_edit.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Open selected" Foreground="Black" InputGestureText="Ctrl+O"
+                              Command="{Binding OpenVDPsCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_open.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator Padding="0" Margin="0" />
+                <MenuItem Header="Select all" Foreground="Black" InputGestureText="Shift+A"
+                              Command="{Binding SelectAllVDPsCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_selectAll.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Unselect all" Foreground="Black" InputGestureText="Shift+U"
+                              Command="{Binding UnselectAllVDPsCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_deselectAll.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Reverse selection" Foreground="Black" InputGestureText="Shift+R"
+                              Command="{Binding ReverseVDPSelectionCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_reverseSelection.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator Padding="0" Margin="0" />
+                <MenuItem Header="Delete selected" Foreground="Black" InputGestureText="Delete"
+                              Command="{Binding DeleteVDPsCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/GUI;component/Resources/icon_delete.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Help" Foreground="White">
+                <MenuItem Header="Documentation" Foreground="Black" InputGestureText="F1"
+                              Command="{Binding OpenDocumentationCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_docs.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator Padding="0" Margin="0" />
+                <MenuItem Header="About" Foreground="Black" InputGestureText="F3"
+                              Command="{Binding OpenAboutCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VDM;component/Resources/icon_about.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="*" MinWidth="150" />
+            </Grid.ColumnDefinitions>
+
+
+            <ListView Grid.Column="0" Background="#FF323232" Margin="5" SelectionMode="Multiple"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ItemContainerStyle="{DynamicResource VDPItemStyle}" ItemsSource="{Binding VDPItems}">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ListSelectedChangedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <Image DockPanel.Dock="Top" Source="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                                       Width="40" Height="40"/>
+                            <StackPanel DockPanel.Dock="Bottom">
+                                <TextBlock Text="{Binding IsOpenedOnSystemStart, Converter={StaticResource AutoStartBoolToStringConverter}}"
+                                           Foreground="{Binding IsOpenedOnSystemStart, Converter={StaticResource AutoStartBoolToForegroundConverter}}"
+                                           TextWrapping="Wrap" HorizontalAlignment="Stretch"
+                                               TextAlignment="Center" />
+                                <TextBlock Text="{Binding Name}" Foreground="White" Margin="0" TextWrapping="Wrap" Height="18"
+                                               HorizontalAlignment="Stretch" TextAlignment="Center" />
+                            </StackPanel>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackPanel Grid.Column="1">
+                <Button Content="Create new..." Command="{Binding NewVDPCommand}" Style="{StaticResource ButtonStyle}"
+                        Margin="5" MinHeight="30" Background="#FF323232" Foreground="#FF00CD0A" FontSize="14" />
+                <Button Content="Edit..." Command="{Binding EditVDPCommand}" Style="{StaticResource ButtonStyle}"
+                        Margin="5" MinHeight="30" Background="#FF323232" Foreground="Yellow" FontSize="14" />
+                <Button Content="Open selected" Command="{Binding OpenVDPsCommand}" Style="{StaticResource ButtonStyle}"
+                        Margin="5,5,5,30" MinHeight="30" Background="#FF323232" Foreground="#FF00A2FF" FontSize="14" />
+                <Button Content="Select all" Style="{StaticResource ButtonStyle}"
+                        CommandParameter="{Binding ElementName=vpdListView, Path=SelectedItems}"
+                        Command="{Binding SelectAllVDPsCommand}"
+                        Margin="5" MinHeight="30" Background="#FF323232" Foreground="White" FontSize="14" />
+                <Button Content="Unselect all" Command="{Binding UnselectAllVDPsCommand}" Style="{StaticResource ButtonStyle}"
+                        Margin="5" MinHeight="30" Background="#FF323232" Foreground="White" FontSize="14" />
+                <Button Content="Reverse selection" Command="{Binding ReverseVDPSelectionCommand}" Style="{StaticResource ButtonStyle}"
+                        Margin="5,5,5,30" MinHeight="30" Background="#FF323232" Foreground="White" FontSize="14" />
+                <Button Content="Delete selected" Command="{Binding DeleteVDPsCommand}" Style="{StaticResource ButtonStyle}"
+                        Margin="5" MinHeight="30" Background="#FF323232" Foreground="Red" FontSize="14" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

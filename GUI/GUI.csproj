@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>appicon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>VDM</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\icon_about.png" />
+    <None Remove="Resources\icon_default_vdp.png" />
+    <None Remove="Resources\icon_delete.png" />
+    <None Remove="Resources\icon_docs.png" />
+    <None Remove="Resources\icon_edit.png" />
+    <None Remove="Resources\icon_help.jpg" />
+    <None Remove="Resources\icon_help.png" />
+    <None Remove="Resources\icon_new.png" />
+    <None Remove="Resources\icon_open.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.6.1" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Interop.IWshRuntimeLibrary">
+      <HintPath>bin\Debug\netcoreapp3.0\Interop.IWshRuntimeLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>Resources\System.Windows.Interactivity.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\icon_about.png" />
+    <Resource Include="Resources\icon_default_vdp.png" />
+    <Resource Include="Resources\icon_delete.png" />
+    <Resource Include="Resources\icon_docs.png" />
+    <Resource Include="Resources\icon_edit.png" />
+    <Resource Include="Resources\icon_new.png" />
+    <Resource Include="Resources\icon_open.png" />
+    <Resource Include="Resources\icon_quit.png" />
+  </ItemGroup>
+
+</Project>

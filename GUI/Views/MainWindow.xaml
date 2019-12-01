@@ -1,0 +1,23 @@
+﻿<Window x:Name="MainWindowInstance" x:Class="VDM.GUI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VDM.GUI"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="395" Width="600" MinHeight="395" MinWidth="600"
+        WindowStartupLocation="CenterScreen" Background="#FF1E1E1E"
+        >
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadedCommand}"
+                                   CommandParameter="{Binding ElementName=MainWindowInstance}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <ContentControl>
+        <ContentPresenter Content="{Binding Content}" />
+    </ContentControl>
+</Window>
