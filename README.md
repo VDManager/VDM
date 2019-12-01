@@ -18,6 +18,6 @@ dotnet build
 
 Enjoy!
 
-Credits:  
+## Credits:
 - Backend: [@dim5](https://github.com/dim5)  
 - Frontend: [@GribMate](https://github.com/GribMate)
